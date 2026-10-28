@@ -1,0 +1,20 @@
+# Build artifact -- reproducible from source via the Makefile; the
+# vbcc78k3/vasm78k3_std/vlink binaries this project's tests build and run
+# against come from the separate KY4WI/NEC-78K3-Toolchain repository,
+# not from anything here.
+emu78k3
+
+# run_tests.sh compiles each tests/t_*.c to a same-named .s/.o/.bin and
+# deletes them (plus their *.log files) when a test passes -- this only
+# guards against a run it interrupted, or a failed test's leftover logs.
+# Hand-written .s sources (test_crt0.s, t_br*.s) are real tracked assets,
+# not build output, so this repo ignores generated files by content
+# pattern (t_*.o/t_*.bin -- .s is ambiguous, cleaned up by run_tests.sh
+# itself instead) rather than blanket-ignoring the whole directory.
+tests/t_*.o
+tests/t_*.bin
+tests/test_crt0.o
+tests/t_*.vbcc.log
+tests/t_*.vasm.log
+tests/t_*.vlink.log
+tests/t_*.emu.log
