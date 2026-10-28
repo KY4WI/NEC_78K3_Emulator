@@ -1,7 +1,7 @@
 # emu78k3 -- 78K/III compiler regression emulator
 
 An instruction-level interpreter for the NEC 78K/III core (uPD78312A).
-This is a companion project to **NEC-78K3_Toolchain**, the 78K/III
+This is a companion project to **[NEC_78K3_Toolchain](https://github.com/KY4WI/NEC_78K3_Toolchain)**, the 78K/III
 vbcc/vasm/vlink backends, built for regression-testing that C compiler,
 assembler and linker (and other 78K/III code generally) without real
 hardware. This is a CPU-level test emulator, **not a hardware
@@ -10,8 +10,8 @@ panel, and the PLL are not modeled.
 
 The emulator includes local copies of instruction-definition headers
 derived from the same work as the companion
-[disassembler](https://github.com/KY4WI/NEC_78KIII_Disassembler) and
-NEC-78K3_Toolchain's vasm backend (`vasm/cpus/78k3/shared/` there).
+[disassembler](https://github.com/KY4WI/NEC_78K3_Disassembler) and
+NEC_78K3_Toolchain's vasm backend (`vasm/cpus/78k3/shared/` there).
 These copies must be kept consistent, but are **not** automatically
 synchronized across repositories -- see "Keeping the instruction tables
 in sync" below for why that matters and how to check it, not just a
@@ -44,7 +44,7 @@ stderr. Exit code is 0 only for the two clean halts (self-loop or BRK).
 ## Run the regression tests
 
 The test suite requires `vbcc78k3`, `vasm78k3_std`, and `vlink` from
-NEC-78K3_Toolchain (the companion project named above). Install these
+NEC_78K3_Toolchain (the companion project named above). Install these
 on your `PATH`, then run:
 
 ```sh
@@ -114,12 +114,12 @@ the `CMPM*`/`CMPBK*` family.
 Both fixed same-day; see the fix comments at the cited locations for the
 full derivation/evidence.
 
-1. **vbcc78k3 codegen** (NEC-78K3_Toolchain's `vbcc/machines/78k3/machine.c`,
+1. **vbcc78k3 codegen** (NEC_78K3_Toolchain's `vbcc/machines/78k3/machine.c`,
    `emit_var_mem()`): a constant-indexed element of a static/global array,
    or constant-offset member of a static/global struct, silently dropped
    its offset and always addressed element/member 0. Affected both reads
    and writes; variable (non-constant) indices were unaffected.
-2. **vasm78k3 relaxation** (NEC-78K3_Toolchain's `vasm/cpus/78k3/cpu.c`,
+2. **vasm78k3 relaxation** (NEC_78K3_Toolchain's `vasm/cpus/78k3/cpu.c`,
    `local_label_disp()`): a same-file relative branch (BR, or any
    conditional branch/DBNZ) to a local label double-counted the target's
    own address in its displacement math, landing on the wrong target --
@@ -136,7 +136,7 @@ and, where appropriate, rebuilt and tested separately.
 ## Keeping the instruction tables in sync (2026-10-28)
 
 `Opcodes.h` and `Addressing.h` are local copies of tables that live
-canonically in the companion NEC-78K3_Toolchain project's
+canonically in the companion NEC_78K3_Toolchain project's
 `vasm/cpus/78k3/shared/` -- see the note at the top of this README.
 Nothing automated checks the two copies against each other, and this
 emulator's own regression suite doesn't either: its tests exercise
